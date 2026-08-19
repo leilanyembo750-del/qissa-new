@@ -1,1 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Qissa — Halal Stories</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff8fc;
+      color: #29232b;
+    }
+
+    nav {
+      height: 70px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7%;
+      border-bottom: 1px solid #eee3ed;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      color: #5b2c6f;
+    }
+
+    .logo span {
+      color: #f19ab9;
+    }
+
+    .login {
+      text-decoration: none;
+      background: #5b2c6f;
+      color: white;
+      padding: 11px 22px;
+      border-radius: 25px;
+      font-weight: bold;
+    }
+
+    .hero {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .hero-content {
+      max-width: 750px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #fce4ef;
+      color: #5b2c6f;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 8vw, 72px);
+      line-height: 1.05;
+      color: #5b2c6f;
+      margin-bottom: 20px;
+    }
+
+    h1 span {
+      color: #e990b1;
+    }
+
+    .hero p {
+      color: #716b73;
+      font-size: 18px;
+      line-height: 1.7;
+      max-width: 600px;
+      margin: 0 auto 30px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .primary,
+    .secondary {
+      text-decoration: none;
+      padding: 14px 25px;
+      border-radius: 30px;
+      font-weight: bold;
+    }
+
+    .primary {
+      background: #5b2c6f;
+      color: white;
+    }
+
+    .secondary {
+      background: white;
+      color: #5b2c6f;
+      border: 1px solid #dbcfe0;
+    }
+
+    .features {
+      padding: 50px 7% 80px;
+      background: white;
+    }
+
+    .features h2 {
+      text-align: center;
+      color: #5b2c6f;
+      margin-bottom: 30px;
+      font-size: 30px;
+    }
+
+    .cards {
+      max-width: 1000px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      padding: 28px;
+      border: 1px solid #eee3ed;
+      border-radius: 18px;
+      text-align: center;
+    }
+
+    .card-icon {
+      font-size: 35px;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      color: #5b2c6f;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #777078;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #88818a;
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        padding: 0 5%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">
+      QISSA<span>.</span>
+    </div>
+
+    <a href="auth.html" class="login">
+      Login
+    </a>
+  </nav>
+
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <div class="badge">
+        📚 Stories with meaning
+      </div>
+
+      <h1>
+        Discover stories<br>
+        <span>worth remembering.</span>
+      </h1>
+
+      <p>
+        Qissa is a home for beautiful, clean and halal stories.
+        Read, write and discover stories from a growing community
+        of Muslim storytellers.
+      </p>
+
+      <div class="buttons">
+
+        <a href="auth.html" class="primary">
+          Start Reading
+        </a>
+
+        <a href="auth.html" class="secondary">
+          Become an Author
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="features">
+
+    <h2>
+      Why Qissa?
+    </h2>
+
+    <div class="cards">
+
+      <div class="card">
+
+        <div class="card-icon">📖</div>
+
+        <h3>
+          Read
+        </h3>
+
+        <p>
+          Discover novels and stories created for readers
+          who want meaningful entertainment.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="card-icon">✍️</div>
+
+        <h3>
+          Write
+        </h3>
+
+        <p>
+          Create your own stories and share them with the
+          Qissa community.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="card-icon">🌙</div>
+
+        <h3>
+          Halal Stories
+        </h3>
+
+        <p>
+          A platform designed around clean and faith-conscious
+          storytelling.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <footer>
+    © 2026 Qissa. Stories with meaning.
+  </footer>
+
+</body>
+</html>
