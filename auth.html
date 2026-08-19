@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Qissa — Login</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #fff8fc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #29232b;
+    }
+
+    .auth-box {
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      padding: 35px;
+      border-radius: 24px;
+      box-shadow: 0 10px 40px rgba(91, 44, 111, 0.10);
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 32px;
+      font-weight: 800;
+      color: #5b2c6f;
+      margin-bottom: 8px;
+    }
+
+    .logo span {
+      color: #e45b91;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #777078;
+      margin-bottom: 30px;
+    }
+
+    .tabs {
+      display: flex;
+      background: #fce4ef;
+      padding: 5px;
+      border-radius: 30px;
+      margin-bottom: 25px;
+    }
+
+    .tabs button {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 12px;
+      border-radius: 25px;
+      font-weight: bold;
+      color: #5b2c6f;
+      cursor: pointer;
+    }
+
+    .tabs button.active {
+      background: #5b2c6f;
+      color: white;
+    }
+
+    .form-group {
+      margin-bottom: 17px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #5b2c6f;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #e5dce7;
+      border-radius: 12px;
+      outline: none;
+      font-size: 15px;
+    }
+
+    input:focus {
+      border-color: #e45b91;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 25px;
+      background: #e45b91;
+      color: white;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 25px;
+      color: #5b2c6f;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="auth-box">
+
+    <div class="logo">
+      QISSA<span>.</span>
+    </div>
+
+    <p class="subtitle">
+      Stories with meaning.
+    </p>
+
+
+    <div class="tabs">
+
+      <button
+        id="loginTab"
+        class="active"
+        type="button"
+        onclick="showLogin()">
+        Login
+      </button>
+
+      <button
+        id="signupTab"
+        type="button"
+        onclick="showSignup()">
+        Create Account
+      </button>
+
+    </div>
+
+
+    <!-- LOGIN -->
+
+    <form id="loginForm">
+
+      <div class="form-group">
+
+        <label for="loginEmail">
+          Email
+        </label>
+
+        <input
+          id="loginEmail"
+          type="email"
+          required
+          autocomplete="email">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="loginPassword">
+          Password
+        </label>
+
+        <input
+          id="loginPassword"
+          type="password"
+          required
+          autocomplete="current-password">
+
+      </div>
+
+
+      <button
+        class="submit-btn"
+        id="loginButton"
+        type="submit">
+
+        Login
+
+      </button>
+
+    </form>
+
+
+    <!-- SIGN UP -->
+
+    <form
+      id="signupForm"
+      class="hidden">
+
+      <div class="form-group">
+
+        <label for="signupName">
+          Your name
+        </label>
+
+        <input
+          id="signupName"
+          type="text"
+          required>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="signupEmail">
+          Email
+        </label>
+
+        <input
+          id="signupEmail"
+          type="email"
+          required
+          autocomplete="email">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="signupPassword">
+          Password
+        </label>
+
+        <input
+          id="signupPassword"
+          type="password"
+          minlength="6"
+          required
+          autocomplete="new-password">
+
+      </div>
+
+
+      <button
+        class="submit-btn"
+        id="signupButton"
+        type="submit">
+
+        Create Account
+
+      </button>
+
+    </form>
+
+
+    <div id="message"></div>
+
+    <a
+      href="index.html"
+      class="back">
+      ← Back to Qissa
+    </a>
+
+  </div>
+
+
+  <!-- Supabase -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="supabase.js"></script>
+
+
+  <script>
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const signupForm =
+      document.getElementById("signupForm");
+
+    const loginTab =
+      document.getElementById("loginTab");
+
+    const signupTab =
+      document.getElementById("signupTab");
+
+    const message =
+      document.getElementById("message");
+
+
+    function showLogin() {
+
+      loginForm.classList.remove("hidden");
+
+      signupForm.classList.add("hidden");
+
+      loginTab.classList.add("active");
+
+      signupTab.classList.remove("active");
+
+      message.textContent = "";
+
+    }
+
+
+    function showSignup() {
+
+      signupForm.classList.remove("hidden");
+
+      loginForm.classList.add("hidden");
+
+      signupTab.classList.add("active");
+
+      loginTab.classList.remove("active");
+
+      message.textContent = "";
+
+    }
+
+
+    loginForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+        const button =
+          document.getElementById("loginButton");
+
+        const email =
+          document.getElementById("loginEmail")
+            .value
+            .trim();
+
+        const password =
+          document.getElementById("loginPassword")
+            .value;
+
+        button.disabled = true;
+
+        button.textContent =
+          "Logging in...";
+
+        message.textContent = "";
+
+
+        try {
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient.auth
+              .signInWithPassword({
+                email,
+                password
+              });
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          if (!data.session) {
+            throw new Error(
+              "Login succeeded, but no session was created."
+            );
+          }
+
+
+          message.textContent =
+            "🎉 Login successful!";
+
+
+          setTimeout(() => {
+
+            window.location.href =
+              "dashboard.html";
+
+          }, 700);
+
+
+        } catch (error) {
+
+          message.textContent =
+            "❌ " + error.message;
+
+          button.disabled = false;
+
+          button.textContent =
+            "Login";
+
+        }
+
+      }
+    );
+
+
+    signupForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+        const button =
+          document.getElementById("signupButton");
+
+        const name =
+          document.getElementById("signupName")
+            .value
+            .trim();
+
+        const email =
+          document.getElementById("signupEmail")
+            .value
+            .trim();
+
+        const password =
+          document.getElementById("signupPassword")
+            .value;
+
+
+        button.disabled = true;
+
+        button.textContent =
+          "Creating account...";
+
+        message.textContent = "";
+
+
+        try {
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient.auth
+              .signUp({
+                email,
+                password
+              });
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          if (!data.user) {
+            throw new Error(
+              "Account could not be created."
+            );
+          }
+
+
+          const {
+            error: profileError
+          } =
+            await supabaseClient
+              .from("profiles")
+              .insert({
+                id: data.user.id,
+                display_name: name,
+                role: "reader"
+              });
+
+
+          if (profileError) {
+            throw profileError;
+          }
+
+
+          message.textContent =
+            "🎉 Account created! You can now log in.";
+
+          showLogin();
+
+          document.getElementById("loginEmail")
+            .value = email;
+
+
+        } catch (error) {
+
+          message.textContent =
+            "❌ " + error.message;
+
+        }
+
+
+        button.disabled = false;
+
+        button.textContent =
+          "Create Account";
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>
