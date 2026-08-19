@@ -294,34 +294,5 @@
 <script <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 
-<script>
-  const connectionTest = document.createElement("div");
-
-  connectionTest.style.cssText = `
-    position: fixed;
-    bottom: 15px;
-    left: 15px;
-    right: 15px;
-    padding: 12px;
-    border-radius: 12px;
-    background: #fce4ef;
-    color: #5b2c6f;
-    text-align: center;
-    font-weight: bold;
-    z-index: 9999;
-  `;
-
-  if (typeof supabaseClient !== "undefined") {
-    connectionTest.textContent =
-      "💗 Qissa is connected to Supabase!";
-  } else {
-    connectionTest.textContent =
-      "❌ Supabase connection failed.";
-  }
-
-  document.body.appendChild(connectionTest);
-</script>
-</script>
-
 </body>
 </html>
