@@ -304,15 +304,24 @@
 
 
         const {
-          data: profile,
-          error: profileError
-        } =
-          await supabaseClient
-            .from("profiles")
-            .select("username, display_name, role, is_pro")
-            .eq("id", session.user.id)
-            .single();
+  data: profiles,
+  error: profileError
+} =
+  await supabaseClient
+    .from("profiles")
+    .select("username, display_name, role, is_pro")
+    .eq("id", session.user.id)
+    .limit(1);
 
+if (profileError) {
+  throw profileError;
+}
+
+if (!profiles || profiles.length === 0) {
+  throw new Error("Your Qissa profile could not be found.");
+}
+
+const profile = profiles[0];
 
         if (profileError) {
           throw profileError;
