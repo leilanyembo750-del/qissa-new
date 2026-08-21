@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Qissa — Dashboard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff8fc;
+      color: #29232b;
+    }
+
+    nav {
+      height: 70px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7%;
+      border-bottom: 1px solid #eee3ed;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      color: #5b2c6f;
+    }
+
+    .logo span {
+      color: #e45b91;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .home-btn,
+    .logout-btn {
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px 18px;
+      border-radius: 25px;
+      font-weight: bold;
+    }
+
+    .home-btn {
+      color: #5b2c6f;
+      background: #fce4ef;
+    }
+
+    .logout-btn {
+      color: white;
+      background: #5b2c6f;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 50px 20px;
+    }
+
+    .welcome {
+      background: linear-gradient(135deg, #fce4ef, #f4ddff);
+      padding: 35px;
+      border-radius: 25px;
+      margin-bottom: 30px;
+    }
+
+    .welcome small {
+      color: #7c687f;
+    }
+
+    .welcome h1 {
+      color: #5b2c6f;
+      margin: 8px 0 10px;
+      font-size: 34px;
+    }
+
+    .welcome p {
+      color: #665e68;
+      line-height: 1.6;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #eee3ed;
+      border-radius: 20px;
+      padding: 28px;
+    }
+
+    .icon {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    .card h2 {
+      color: #5b2c6f;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #777078;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: #5b2c6f;
+    }
+
+    .error {
+      background: #ffe5ec;
+      color: #a32955;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    @media (max-width: 700px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        padding: 0 5%;
+      }
+
+      .home-btn {
+        display: none;
+      }
+
+      .welcome h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+
+    <div class="logo">
+      QISSA<span>.</span>
+    </div>
+
+    <div class="nav-right">
+
+      <a href="index.html" class="home-btn">
+        Home
+      </a>
+
+      <button id="logoutBtn" class="logout-btn">
+        Logout
+      </button>
+
+    </div>
+
+  </nav>
+
+
+  <main>
+
+    <div id="loading" class="loading">
+      Checking your Qissa account...
+    </div>
+
+    <div id="dashboard" style="display: none;">
+
+      <section class="welcome">
+
+        <small>WELCOME BACK 💗</small>
+
+        <h1 id="welcomeName">
+          Welcome to Qissa
+        </h1>
+
+        <p id="roleText">
+          Your Qissa journey starts here.
+        </p>
+
+      </section>
+
+
+      <section class="cards">
+
+        <div class="card">
+
+          <div class="icon">📖</div>
+
+          <h2>
+            Read Stories
+          </h2>
+
+          <p>
+            Discover meaningful stories from Qissa authors.
+          </p>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="icon">✍️</div>
+
+          <h2>
+            Write
+          </h2>
+
+          <p>
+            Your author tools will appear here when we build them.
+          </p>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="icon">👤</div>
+
+          <h2>
+            Your Profile
+          </h2>
+
+          <p id="profileText">
+            Your Qissa profile is ready.
+          </p>
+
+        </div>
+
+      </section>
+
+    </div>
+
+
+    <div id="error" class="error" style="display: none;"></div>
+
+  </main>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+
+  <script>
+
+    async function loadDashboard() {
+
+      const loading =
+        document.getElementById("loading");
+
+      const dashboard =
+        document.getElementById("dashboard");
+
+      const errorBox =
+        document.getElementById("error");
+
+      try {
+
+        const {
+          data: sessionData,
+          error: sessionError
+        } =
+          await supabaseClient.auth.getSession();
+
+
+        if (sessionError) {
+          throw sessionError;
+        }
+
+
+        const session =
+          sessionData.session;
+
+
+        if (!session) {
+
+          window.location.href =
+            "auth.html";
+
+          return;
+
+        }
+
+
+        const {
+          data: profile,
+          error: profileError
+        } =
+          await supabaseClient
+            .from("profiles")
+            .select("username, display_name, role, is_pro")
+            .eq("id", session.user.id)
+            .single();
+
+
+        if (profileError) {
+          throw profileError;
+        }
+
+
+        document.getElementById("welcomeName")
+          .textContent =
+          "Welcome, " +
+          (profile.display_name || "Reader") +
+          "!";
+
+
+        document.getElementById("roleText")
+          .textContent =
+          "You are signed in as a " +
+          (profile.role || "reader") +
+          ".";
+
+
+        document.getElementById("profileText")
+          .textContent =
+          profile.is_pro
+            ? "Your Qissa Pro account is active."
+            : "Your Qissa reader account is ready.";
+
+
+        loading.style.display = "none";
+
+        dashboard.style.display = "block";
+
+
+      } catch (err) {
+
+        loading.style.display = "none";
+
+        errorBox.style.display = "block";
+
+        errorBox.textContent =
+          "❌ " + err.message;
+
+      }
+
+    }
+
+
+    document
+      .getElementById("logoutBtn")
+      .addEventListener(
+        "click",
+        async function() {
+
+          const {
+            error
+          } =
+            await supabaseClient.auth.signOut();
+
+
+          if (error) {
+
+            alert(error.message);
+
+            return;
+
+          }
+
+
+          window.location.href =
+            "index.html";
+
+        }
+      );
+
+
+    loadDashboard();
+
+  </script>
+
+</body>
+</html>
